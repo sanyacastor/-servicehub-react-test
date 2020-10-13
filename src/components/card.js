@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import Card from '@material-ui/core/Card';
 
-// import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -23,7 +22,7 @@ const MyCard = ({ data, isSaved }) => {
   const addBookmarkHandler = () => {
     dispatch(
       isSaved
-        ? deleteBookmarkAction({ item: data, id: data.id })
+        ? deleteBookmarkAction({ id: data.id })
         : createBookmarkAction({ item: data, id: data.id })
     );
   };
@@ -32,7 +31,7 @@ const MyCard = ({ data, isSaved }) => {
     <Card style={{ marginTop: '8px', display: 'flex' }}>
       <CardMedia
         style={{ minWidth: '270px', height: '150px' }}
-        image={data.snippet.thumbnails.standard.url}
+        image={data.snippet.thumbnails.medium.url}
       />
       <CardContent>
         <Typography variant="body1" color="textSecondary" component="p">
@@ -41,7 +40,7 @@ const MyCard = ({ data, isSaved }) => {
           {data.snippet.title}
         </Typography>
       </CardContent>
-      <CardActions style={{ display: 'flex', alignItems: 'flex-start' }}>
+      <CardActions style={{ display: 'flex', alignItems: 'flex-start', marginLeft: 'auto'}}>
         <IconButton aria-label="add to favorites" onClick={addBookmarkHandler}>
           {isSaved ? (
             <BookmarkIcon color="secondary" />

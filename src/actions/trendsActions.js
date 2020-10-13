@@ -5,6 +5,7 @@ import {
   UPDATE_TRENDS,
 } from './actionTypes';
 
+
 export const fetchTrends = (getData) => {
   return (dispatch, getState) => {
     dispatch(trendsAction());

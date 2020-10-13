@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTrends, getNextPage } from '../servicies/youtube';
+import { getVideos, getNextPage } from '../servicies/youtube';
 import { fetchTrends, updatetrendsAction } from '../actions/trendsActions';
 
 import Button from '@material-ui/core/Button';
@@ -12,13 +12,9 @@ import Spinner from '../components/spinner';
 export default function SearchPage(state) {
   const dispatch = useDispatch();
   const [filtred, setFiltred] = useState([]);
+  const [loading, setloading] = useState(false);
 
   const trends = useSelector((state) => state.trends);
-
-  useEffect(() => {
-    dispatch(fetchTrends(getTrends));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   useEffect(() => {
     if (!trends.isBisy && trends.payload !== null && trends.error === null) {
@@ -27,19 +23,14 @@ export default function SearchPage(state) {
   }, [trends.error, trends.isBisy, trends.payload]);
 
   const searchHandler = (query) => {
-    const updated = query
-      ? trends.payload.items.filter((t) =>
-          t.snippet.title.toLowerCase().includes(query.toLowerCase())
-        )
-      : trends.payload.items;
-
-    setFiltred(updated);
+    dispatch(fetchTrends(() => getVideos(query)));
   };
 
   const loadMoreHandler = async () => {
-    getNextPage(trends.payload.nextPage).then((data) =>
-      dispatch(updatetrendsAction(data))
-    );
+    setloading(true);
+    const data = await getNextPage(trends.payload.nextPage);
+    dispatch(updatetrendsAction(data));
+    setloading(false);
   };
 
   return (
@@ -50,6 +41,7 @@ export default function SearchPage(state) {
         <Spinner />
       ) : (
         <>
+          {/* {console.log(filtred)} */}
           <CardList items={filtred} />
           <div
             style={{
@@ -58,13 +50,17 @@ export default function SearchPage(state) {
               margin: '16px 0',
             }}
           >
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={loadMoreHandler}
-            >
-              Загрузить еще...
-            </Button>
+            {loading ? (
+              <Spinner />
+            ) : (
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={loadMoreHandler}
+              >
+                Загрузить еще...
+              </Button>
+            )}
           </div>
         </>
       )}

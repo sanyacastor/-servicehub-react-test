@@ -1,18 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+
 import CardList from '../components/cardList';
+import SearchBar from '../components/searchBar';
+import Typography from '@material-ui/core/Typography';
 
 export default function BookmarksPage() {
   const bookmarks = useSelector((state) => state.bookmarks);
+  const [filtred, setFiltred] = useState(bookmarks);
+
+  useEffect(() => {
+    setFiltred(bookmarks);
+  }, [bookmarks]);
+
+  const searchHandler = (query) => {
+    if (!query.length) {
+      setFiltred(bookmarks);
+    } else {
+      const searchResult = bookmarks.filter((b) =>
+        b.snippet.title.toLowerCase().includes(query)
+      );
+      setFiltred(searchResult);
+    }
+  };
+
+  const message = bookmarks.length
+    ? 'ничего не найдено'
+    : 'у вас пока нет закладок';
 
   return (
-    <div>
+    <>
       <h1>Мои закладки</h1>
-      {bookmarks.length ? (
-        <CardList items={bookmarks} />
+      <SearchBar onSearch={searchHandler} />
+      {filtred.length ? (
+        <CardList items={filtred} />
       ) : (
-        'У вас пока нет закладок'
+        <Typography>{message}</Typography>
       )}
-    </div>
+    </>
   );
 }

@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const baseUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,snippet&chart=mostPopular&regionCode=RU&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`;
+const baseUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=25&key=${process.env.REACT_APP_YOUTUBE_API_KEY}`;
 
-export const getTrends = async () => {
-  const data = await axios.get(baseUrl);
+export const getVideos = async (query) => {
+  const data = await axios.get(`${baseUrl}&q=${query}`);
   return data.data;
 };
 

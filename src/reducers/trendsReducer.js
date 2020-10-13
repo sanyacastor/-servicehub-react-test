@@ -5,6 +5,12 @@ import {
   UPDATE_TRENDS,
 } from '../actions/actionTypes';
 
+// export interface trends  {
+//   payload: Object | null,
+//   error: String | null,
+//   isBisy: Boolean,
+// }
+
 const initialState = {
   payload: null,
   error: null,
