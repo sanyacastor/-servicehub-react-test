@@ -41,7 +41,6 @@ export default function SearchPage(state) {
         <Spinner />
       ) : (
         <>
-          {/* {console.log(filtred)} */}
           <CardList items={filtred} />
           <div
             style={{
@@ -53,13 +52,15 @@ export default function SearchPage(state) {
             {loading ? (
               <Spinner />
             ) : (
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={loadMoreHandler}
-              >
-                Загрузить еще...
-              </Button>
+              trends.payload && (
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={loadMoreHandler}
+                >
+                  Загрузить еще...
+                </Button>
+              )
             )}
           </div>
         </>

@@ -14,7 +14,7 @@ import {
 const initialState = {
   payload: null,
   error: null,
-  isBisy: true,
+  isBisy: false,
 };
 
 export default (state = initialState, { type, payload, error }) => {

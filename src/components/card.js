@@ -29,10 +29,15 @@ const MyCard = ({ data, isSaved }) => {
 
   return (
     <Card style={{ marginTop: '8px', display: 'flex' }}>
-      <CardMedia
-        style={{ minWidth: '270px', height: '150px' }}
-        image={data.snippet.thumbnails.medium.url}
-      />
+      <a
+        href={`https://www.youtube.com/video/${data.id.videoId}`}
+        target="blank"
+      >
+        <CardMedia
+          style={{ minWidth: '270px', height: '150px' }}
+          image={data.snippet.thumbnails.medium.url}
+        />
+      </a>
       <CardContent>
         <Typography variant="body1" color="textSecondary" component="p">
           {new Date(data.snippet.publishedAt).toLocaleDateString()}
@@ -40,7 +45,13 @@ const MyCard = ({ data, isSaved }) => {
           {data.snippet.title}
         </Typography>
       </CardContent>
-      <CardActions style={{ display: 'flex', alignItems: 'flex-start', marginLeft: 'auto'}}>
+      <CardActions
+        style={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          marginLeft: 'auto',
+        }}
+      >
         <IconButton aria-label="add to favorites" onClick={addBookmarkHandler}>
           {isSaved ? (
             <BookmarkIcon color="secondary" />

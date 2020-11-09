@@ -33,7 +33,7 @@ export default function BookmarksPage() {
       <h1>Мои закладки</h1>
       <SearchBar onSearch={searchHandler} />
       {filtred.length ? (
-        <CardList items={filtred} />
+        <CardList items={filtred} style={{'paddingTop': '40px'}}/>
       ) : (
         <Typography>{message}</Typography>
       )}
